@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import { initializeLogger } from "./common/logger";
+import { initializeLogger } from "common/logger";
 
 const App = () => {
   useEffect(() => {
@@ -13,13 +13,6 @@ const App = () => {
     <Router>
       <Switch>
         <Route exact path="/" render={() => <div>Home</div>} />
-        <Route
-          exact
-          path="/about"
-          render={() => (
-            <div className="h-screen bg-blue-900 text-black">About</div>
-          )}
-        />
       </Switch>
     </Router>
   );

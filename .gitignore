@@ -90,3 +90,4 @@ $RECYCLE.BIN/
 
 # Ignore dump.rb
 dump.rdb
+test/fixtures
