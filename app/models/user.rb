@@ -5,14 +5,22 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true, length: {minimum:3, maximum:16}
   validates :last_name, presence: true, length: {minimum:3, maximum:16}
-  validates :email, uniqueness: { message: "duplicate email" },
+  validates :email, uniqueness: { message: "duplicate" },
                   presence: true,
+                  length: { maximum: 50 },
                   format: { with: URI::MailTo::EMAIL_REGEXP
                 }
-  validates :password, presence: true, confirmation: { case_sensitive: true },
-            length: { in: Devise.password_length }
+  validates :password, presence: true, length: { in: Devise.password_length }
+  validates :password_confirmation, { presence: { case_sensitive: true } }
+
+
+  def self.authenticate(username, password)
+  end
+  
+  private
 
   def normalize_email
-    self.email = self.email.downcase.strip
+    email = email.downcase.strip if email.present?
   end
+
 end

@@ -12,26 +12,32 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_user_should_be_not_be_valid_without_first_name
-    @user.first_name = ''
+    @user.first_name = nil
     assert_not @user.valid?
-    assert_equal ["First name can't be blank"], @user.errors.full_messages
   end
 
   def test_user_should_be_not_be_valid_without_last_name
-    @user.last_name = ''
+    @user.last_name = nil
     assert_not @user.valid?
-    assert_equal ["Last name can't be blank"], @user.errors.full_messages
   end
 
   def test_user_should_be_not_be_valid_without_email
-    @user.email = ""
+    @user.email = nil
     assert_not @user.valid?
-    assert_equal ["E-mail can't be blank"], @user.errors.full_messages
+  end
+
+  def test_user_should_be_not_be_valid_with_invalid_email
+    @user.email = "notAemail.com"
+    assert_not @user.valid?
   end
 
   def test_user_should_be_not_be_valid_without_password 
-    @user.password = ""
+    @user.password = nil 
     assert_not @user.valid?
-    assert_equal ["Password can't be blank"], @user.errors.full_messages
+  end
+
+  def test_user_should_be_not_be_valid_without_password_confirmation
+    @user.password_confirmation = nil
+    assert_not @user.valid?
   end
 end
