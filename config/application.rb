@@ -19,5 +19,7 @@ module Polly
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.autoload_paths << Rails.root.join('lib')
+    excluded_routes = ->(env) { !env["PATH_INFO"].match(%r{^/api}) }
+    config.middleware.use OliveBranch::Middleware, inflection: "camel"
   end
 end

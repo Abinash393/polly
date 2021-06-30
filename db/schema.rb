@@ -10,11 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_102312) do
+ActiveRecord::Schema.define(version: 2021_06_27_225115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "polls", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "user_id", null: false
+    t.string "title", limit: 64, null: false
+    t.string "option1", limit: 64, null: false
+    t.string "option2", limit: 64, null: false
+    t.string "option3", limit: 64, null: false
+    t.string "option4", limit: 64, null: false
+    t.bigint "option1_votes", default: 0
+    t.bigint "option2_votes", default: 0
+    t.bigint "option3_votes", default: 0
+    t.bigint "option4_votes", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "first_name", null: false
