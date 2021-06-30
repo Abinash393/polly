@@ -1,5 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
+
+  has_many :polls
   
   before_validation :normalize_email
 
@@ -12,7 +14,6 @@ class User < ApplicationRecord
                 }
   validates :password, presence: true, length: { in: Devise.password_length }
   validates :password_confirmation, { presence: { case_sensitive: true } }
-
 
   def self.authenticate(username, password)
   end

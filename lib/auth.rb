@@ -1,6 +1,7 @@
 class Auth
-    def self.current_user_from_jwt(token)
-
+    def self.user_id_from_jwt(token)
+      claims = decode_token(token)
+      claims[:uid] if claims
     end
 
     def self.create_token(uid)
@@ -18,6 +19,6 @@ class Auth
         token,
         Rails.application.credentials[:jwt][:secret],
         {algorithm: 'HS256'}
-      ).first.with_indifferent_access
+      ).first.with_indifferent_access rescue nil
     end
 end

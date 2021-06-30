@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
+  resources :polls
   namespace :api, defaults: {format: 'json'} do
     namespace :v1 do
       
-      resources :users, except: [:destroy] do
+      resources :users, only: [:create] do
         collection do
           post :login
+        end
+      end
+
+      resources :polls do
+        collection do
+          post :vote
         end
       end
       
