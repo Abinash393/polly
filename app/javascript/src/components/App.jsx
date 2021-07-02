@@ -1,20 +1,38 @@
-import React, { useEffect } from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
-import { initializeLogger } from "common/logger";
+import React from "react";
+import Login from "components/Login";
+import Header from "components/Header";
+import Signup from "components/Signup";
+import ShowPolls from "components/ShowPolls";
+import CreatePoll from "components/CreatePoll";
+import EditPoll from "components/EditPoll";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const App = () => {
-  useEffect(() => {
-    /*eslint no-undef: "off"*/
-    initializeLogger();
-    logger.info("Log from js-logger");
-  }, []);
+  const handleLogout = () => {};
 
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" render={() => <div>Home</div>} />
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Header handleLogout={handleLogout} />
+        <Switch>
+          <Route path="/" exact>
+            <ShowPolls />
+          </Route>
+          <Route path="/signup" exact>
+            <Signup />
+          </Route>
+          <Route path="/login" exact>
+            <Login />
+          </Route>
+          <Route path="/polls/new" exact>
+            <CreatePoll />
+          </Route>
+          <Route path="/polls/:id/edit">
+            <EditPoll />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 };
 
