@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     end
 
     def set_current_user
-      token = request.headers[:Authorization].split(" ")[1] rescue nil
+      token = request.headers["X-Auth-Token"]
       user_id = Auth.user_id_from_jwt token
       @current_user = User.find(user_id) rescue nil
     end
