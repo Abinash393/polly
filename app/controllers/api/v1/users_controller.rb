@@ -2,8 +2,8 @@ class Api::V1::UsersController < ApplicationController
   extend Devise::Models
 
     def create
-      user = User.create!(user_params)
-      if user
+      user = User.new!(user_params)
+      if user.save
         render :ok, json: { success: true, notice: "Successfully registered" }
       else
         render :bad_request, json: { success: false, notice: "Invalid input" }
