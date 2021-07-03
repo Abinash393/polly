@@ -1,8 +1,9 @@
 require 'faker'
 
-User.create({
+User.create!({
     first_name: 'john',
     last_name: 'doe',
     email: 'test@email.com',
-    password: 'qwerty'
+    password: 'qwerty',
+    password_confirmation: 'qwerty'
 })
