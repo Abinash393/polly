@@ -22,8 +22,19 @@ jobs:
 
       - run: sudo apt-get update
       - run: sudo apt-get install postgresql-client-9.6
-      - run: pg_ctl -D /var/lib/postgresql/data -l logfile start
-
+      - run: whoami
+      - run: |
+          psql \
+          -d $TEST_DATABASE_URL \
+          -c "CREATE TABLE test (name char(25));"
+      - run: |
+          psql \
+          -d $TEST_DATABASE_URL \
+          -c "INSERT INTO test VALUES ('John'), ('Joanna'), ('Jennifer');"
+      - run: |
+          psql \
+          -d $TEST_DATABASE_URL \
+          -c "SELECT * from test"
       # Bundle install
 
       - run:
