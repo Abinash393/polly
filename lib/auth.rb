@@ -1,5 +1,4 @@
 class Auth
-  @@secret = Rails.application.credentials[:jwt][:secret] || ENV['JWT_SECRET'] ||"uLtRAsEcrET"
 
     def self.user_id_from_jwt(token)
       claims = decode_token(token)
@@ -13,13 +12,13 @@ class Auth
         exp: current_time_sec + 1.week,
         uid: uid
       }
-      JWT.encode payload, @@secret, 'HS256'
+      JWT.encode payload, "uLtRAsEcrET", 'HS256'
     end
 
     def self.decode_token(token)
       JWT.decode(
         token,
-        @@secret,
+        "uLtRAsEcrET",
         {algorithm: 'HS256'}
       ).first.with_indifferent_access rescue nil
     end
