@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
     end
 
     def resources_not_avalable(err)
-      puts err
       render status: :bad_request, json: { success: false, notice: "Resource not avalable" }
     end
 

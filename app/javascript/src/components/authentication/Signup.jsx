@@ -1,12 +1,33 @@
+import Logger from "js-logger";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import usersApi from "apis/users";
 
-const Signup = props => {
+const Signup = ({ history }) => {
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
-  const handleSignupForm = event => {
-    event.preventDefault();
-    props.history.push("/signin");
+  const handleSignupForm = async event => {
+    try {
+      event.preventDefault();
+      const res = await usersApi.signup({
+        user: {
+          firstName,
+          lastName,
+          email,
+          password,
+          passwordConfirmation,
+        },
+      });
+      if (res.data.success) {
+        history.push("/login");
+      }
+    } catch (err) {
+      Logger.error(Toastr);
+    }
   };
 
   return (
@@ -31,6 +52,10 @@ const Signup = props => {
                   name="userName"
                   id="firstName"
                   placeholder="John"
+                  value={firstName}
+                  onChange={e => {
+                    setFirstName(e.target.value);
+                  }}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 />
               </div>
@@ -46,6 +71,10 @@ const Signup = props => {
                   name="lastName"
                   id="lastName"
                   placeholder="doe"
+                  value={lastName}
+                  onChange={e => {
+                    setLastName(e.target.value);
+                  }}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 />
               </div>
@@ -63,6 +92,8 @@ const Signup = props => {
                   name="email"
                   id="email"
                   placeholder="johndoe@email.com"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 />
               </div>
@@ -79,6 +110,10 @@ const Signup = props => {
                 name="password"
                 id="password"
                 placeholder="********"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
               <p className="text-gray-600 text-xs italic my-4">
@@ -97,6 +132,10 @@ const Signup = props => {
                 name="passwordConformation"
                 id="passwordConformation"
                 placeholder="********"
+                value={passwordConfirmation}
+                onChange={e => {
+                  setPasswordConfirmation(e.target.value);
+                }}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>

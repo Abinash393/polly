@@ -1,12 +1,28 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import Toastr from "components/common/Toastr";
+import usersApi from "apis/users";
+import { setToLocalStorage } from "common/storage";
 
-const Login = () => {
-  // const handleAuthToken = () => {
+const Login = ({ setIsLoggedIn }) => {
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  // }
-
-  const handleLoginForm = () => {};
+  const handleLoginForm = async event => {
+    try {
+      event.preventDefault();
+      const res = await usersApi.login({ user: { email, password } });
+      if (res.data.success) {
+        Toastr.success("Logged In");
+        setToLocalStorage(res.data);
+        setIsLoggedIn(true);
+        history.push("/");
+      }
+    } catch (err) {
+      logger.error(err);
+    }
+  };
 
   return (
     <div className="container mx-auto">
@@ -27,8 +43,11 @@ const Login = () => {
                 <input
                   type="email"
                   name="email"
-                  id="email"
                   placeholder="johndoe@email.com"
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value);
+                  }}
                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 />
               </div>
@@ -43,8 +62,11 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
-                id="password"
                 placeholder="********"
+                value={password}
+                onChange={e => {
+                  setPassword(e.target.value);
+                }}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
               />
             </div>
@@ -55,7 +77,7 @@ const Login = () => {
               Login
             </button>
             <div className="flex my-6 text-gray-700">
-              <p className="italic">Don`&apos;`t have an account?</p>
+              <p className="italic">Don&apos;t have an account?</p>
               <Link to="/signup">
                 <span className="cursor-pointer text-gray-700 hover:text-blue-500 ml-4">
                   Signup

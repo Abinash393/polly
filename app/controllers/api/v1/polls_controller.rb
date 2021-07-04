@@ -1,6 +1,6 @@
 class Api::V1::PollsController < ApplicationController
   before_action :require_auth, only: %i[ create edit update destroy vote ]
-  before_action :require_poll, only: %i[ create edit update destroy show vote ]
+  before_action :require_poll, only: %i[ edit update destroy show vote ]
 
   attr_accessor :poll
 
@@ -15,8 +15,8 @@ class Api::V1::PollsController < ApplicationController
 
   def update
     updated_poll = poll.update(poll_params)
-    render json: { success: false, message: "Unable to update" }  unless updated_poll
-    render json: { success: true, message: "Poll successfully updated" }
+    render json: { success: false, notice: "Unable to update" }  unless updated_poll
+    render json: { success: true, notice: "Poll successfully updated" }
   end
 
   def create
