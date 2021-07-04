@@ -1,5 +1,5 @@
 class Auth
-  @@secret = Rails.application.credentials[:jwt][:secret] || ENV['JWT_SECRET']
+  @@secret = Rails.application.credentials[:jwt][:secret] || ENV['JWT_SECRET'] ||"uLtRAsEcrET"
 
     def self.user_id_from_jwt(token)
       claims = decode_token(token)
